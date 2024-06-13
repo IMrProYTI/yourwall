@@ -40,6 +40,7 @@ function disableHTML(input: string): string {
 
 async function submit() {
   await supabase.from('wall').insert({ content: Converter.makeHtml(disableHTML(form.value.content)) }).select();
+  form.value.content = '';
 };
 
 function insertEvent(payload: { new: IPost; }) {
