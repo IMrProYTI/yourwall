@@ -7,11 +7,13 @@
       <Post v-for="post in posts" :post="post" :key="post.id" />
     </div>
     <div>
-      <div class="rounded p-2 m-2 border" :class="`border-[#${theme.border}]`">
-        <p>Preview:</p>
-        <div class="post flex flex-wrap break-all space-x-2" v-html="`<p>${date}:</p>` + Converter.makeHtml(disableHTML(form.content))" />
+      <div class="w-full max-w-sm mt-4">
+        <div class="rounded p-2 border" :class="`border-[#${theme.border}]`">
+          <p>Preview:</p>
+          <div class="post flex flex-wrap break-all space-x-2" v-html="`<p>${getDate()}:</p>` + Converter.makeHtml(disableHTML(form.content))" />
+        </div>
       </div>
-      <div class="flex flex-col rounded *:rounded w-full max-w-sm p-2 *:p-1 space-y-1 mt-2">
+      <div class="flex flex-col rounded *:rounded w-full max-w-sm *:p-1 space-y-1 mt-2">
         <textarea
           class="border resize-none h-32"
           :class="`bg-[#${theme.bg}] border-[#${theme.border}]`"
@@ -38,7 +40,9 @@ import { IPost } from '../components/Post';
 const loading: Ref<boolean> = ref(true);
 const posts: Ref<IPost[] | null> = ref([]);
 
-const date = ref(new Date(Date.now()).toLocaleString().replace(',', '').split(':').slice(0, -1).join(':'));
+const date: Ref<number> = ref(Date.now());
+const getDate = () => new Date(date.value).toLocaleString().replace(',', '').split(':').slice(0, -1).join(':');
+setInterval(() => { date.value = Date.now() }, 1000);
 
 const form = ref({
   content: ""
