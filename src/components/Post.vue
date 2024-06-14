@@ -1,7 +1,7 @@
 <template>
-	<div class="flex space-x-2">
+	<div class="post flex space-x-2">
 		<p>{{ `${date}:` }}</p>
-		<p v-html="post.content" />
+		<div v-html="post.content" />
 	</div>
 </template>
 
@@ -14,10 +14,11 @@ const date = new Date(props.post.created_at).toLocaleString().replace(',', '').s
 </script>
 
 <style>
-h1 { font-size: xx-large;}
-h2 { font-size: x-large;}
-h3 { font-size: larger;}
-h4 { font-size: large;}
-h5 { font-size: medium;}
-h6 { font-size: small;}
+.post h1 { font-size: xx-large; }
+.post h2 { font-size: x-large; }
+.post h3 { font-size: larger; }
+.post h4 { font-size: large; }
+.post h5 { font-size: medium; }
+.post h6 { font-size: small; }
+.post a { text-decoration: underline; }
 </style>
