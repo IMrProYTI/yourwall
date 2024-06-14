@@ -10,7 +10,7 @@ import { IPost } from './Post';
 
 const props = defineProps<{post: IPost}>();
 
-const date = new Date(props.post.created_at).toLocaleString().replace(',', '').split(':').slice(0, -1).join(':')
+const date = new Date(props.post.created_at).toLocaleString().replace(',', '').split(':').slice(0, -1).join(':');
 </script>
 
 <style>

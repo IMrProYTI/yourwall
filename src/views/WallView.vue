@@ -6,14 +6,20 @@
     <div v-else-if="posts" class="space-y-1">
       <Post v-for="post in posts" :post="post" :key="post.id" />
     </div>
-    <div class="flex flex-col rounded *:rounded w-full max-w-sm p-2 *:p-1 space-y-1 mt-2">
-      <textarea
-        class="border resize-none h-32"
-        :class="`bg-[#${theme.bg}] border-[#${theme.border}]`"
-        v-model="form.content" placeholder="Content"
-        @keypress.prevent.enter="enterEvent"
-      ></textarea>
-      <button class="border" :class="`border-[#${theme.border}]`" @click="submit">Submit</button>
+    <div>
+      <div class="rounded p-2 m-2 border" :class="`border-[#${theme.border}]`">
+        <p>Preview:</p>
+        <div class="post flex flex-wrap break-all space-x-2" v-html="`<p>${date}:</p>` + Converter.makeHtml(disableHTML(form.content))" />
+      </div>
+      <div class="flex flex-col rounded *:rounded w-full max-w-sm p-2 *:p-1 space-y-1 mt-2">
+        <textarea
+          class="border resize-none h-32"
+          :class="`bg-[#${theme.bg}] border-[#${theme.border}]`"
+          v-model="form.content" placeholder="Content"
+          @keypress.prevent.enter="enterEvent"
+        ></textarea>
+        <button class="border" :class="`border-[#${theme.border}]`" @click="submit">Submit</button>
+      </div>
     </div>
   </div>
 </template>
@@ -31,6 +37,8 @@ import { IPost } from '../components/Post';
 
 const loading: Ref<boolean> = ref(true);
 const posts: Ref<IPost[] | null> = ref([]);
+
+const date = ref(new Date(Date.now()).toLocaleString().replace(',', '').split(':').slice(0, -1).join(':'));
 
 const form = ref({
   content: ""
@@ -71,3 +79,13 @@ supabase.channel('postgres_changes').on('postgres_changes', { event: 'INSERT', s
   loading.value = false;
 })();
 </script>
+
+<style>
+.post h1 { font-size: xx-large; }
+.post h2 { font-size: x-large; }
+.post h3 { font-size: larger; }
+.post h4 { font-size: large; }
+.post h5 { font-size: medium; }
+.post h6 { font-size: small; }
+.post a { text-decoration: underline; }
+</style>
