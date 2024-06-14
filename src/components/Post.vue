@@ -1,5 +1,5 @@
 <template>
-	<div class="post flex space-x-2">
+	<div class="post flex flex-wrap space-x-2">
 		<p>{{ `${date}:` }}</p>
 		<div v-html="post.content" />
 	</div>

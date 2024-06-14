@@ -1,13 +1,18 @@
 <template>
-  <div class="flex flex-col flex-1 p-2">
+  <div class="flex flex-col w-fill flex-1 p-2">
     <div v-if="loading">
       Loading...
     </div>
     <div v-else-if="posts" class="space-y-1">
       <Post v-for="post in posts" :post="post" :key="post.id" />
     </div>
-    <div class="flex flex-col rounded *:rounded w-fit p-2 *:p-1 space-y-1 mt-2">
-      <textarea class="border resize-none" :class="`bg-[#${theme.bg}] border-[#${theme.border}]`" v-model="form.content" cols="40" rows="5" placeholder="Content"></textarea>
+    <div class="flex flex-col rounded *:rounded w-full max-w-sm p-2 *:p-1 space-y-1 mt-2">
+      <textarea
+        class="border resize-none h-32"
+        :class="`bg-[#${theme.bg}] border-[#${theme.border}]`"
+        v-model="form.content" placeholder="Content"
+        @keypress.prevent.enter="enterEvent"
+      ></textarea>
       <button class="border" :class="`border-[#${theme.border}]`" @click="submit">Submit</button>
     </div>
   </div>
@@ -30,6 +35,14 @@ const posts: Ref<IPost[] | null> = ref([]);
 const form = ref({
   content: ""
 });
+
+function enterEvent(payload: KeyboardEvent): void {
+  if (payload.shiftKey) {
+    form.value.content += '\n';
+  } else {
+    submit();
+  }
+}
 
 function disableHTML(input: string): string {
   let local = input;
